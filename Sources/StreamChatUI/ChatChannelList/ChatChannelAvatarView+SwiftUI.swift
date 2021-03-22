@@ -39,7 +39,6 @@ extension _ChatChannelAvatarView {
         }
 
         override public func setUpLayout() {
-            hostingController!.view.translatesAutoresizingMaskIntoConstraints = false
             embed(hostingController!.view)
         }
 

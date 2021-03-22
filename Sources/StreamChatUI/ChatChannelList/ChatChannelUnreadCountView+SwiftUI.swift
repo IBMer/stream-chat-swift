@@ -39,6 +39,7 @@ extension _ChatChannelUnreadCountView {
         }
 
         override public func setUpLayout() {
+            hostingController!.view.translatesAutoresizingMaskIntoConstraints = false
             embed(hostingController!.view)
         }
 
