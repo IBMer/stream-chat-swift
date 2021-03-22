@@ -4,6 +4,7 @@ import SwiftUI
 
 struct MessengerChatChannelListItem: ChatChannelListItemView.SwiftUIView {
     @ObservedObject var dataSource: ChatChannelListItemView.ObservedObject<Self>
+    @EnvironmentObject var uiConfig: UIConfig.ObservableObject
     init(dataSource: _ChatChannelListItemView<NoExtraData>.ObservedObject<MessengerChatChannelListItem>) {
         self.dataSource = dataSource
     }
@@ -12,7 +13,7 @@ struct MessengerChatChannelListItem: ChatChannelListItemView.SwiftUIView {
     
     var body: some View {
         HStack {
-            ImageView(url: imageURL())
+            uiConfig.channelList.itemSubviews.avatarView.SwiftUI(dataSource.content)
                 .frame(width: 50, height: 50)
             if
                 let channel = dataSource.content.channel,

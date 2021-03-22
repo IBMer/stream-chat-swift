@@ -25,7 +25,7 @@ extension _ChatChannelListItemView {
     public class SwiftUIWrapper<Content: SwiftUIView>: _ChatChannelListItemView<ExtraData>, ObservableObject
         where Content.ExtraData == ExtraData
     {
-        var hostingController: UIHostingController<Content>?
+        var hostingController: UIViewController?
 
         override public var intrinsicContentSize: CGSize {
             hostingController?.view.intrinsicContentSize ?? super.intrinsicContentSize
@@ -35,6 +35,7 @@ extension _ChatChannelListItemView {
             super.setUp()
 
             let view = Content(dataSource: self)
+                .environmentObject(uiConfig.asObservableObject)
             hostingController = UIHostingController(rootView: view)
         }
 

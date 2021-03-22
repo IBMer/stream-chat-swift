@@ -14,6 +14,15 @@ open class _ChatChannelAvatarView<ExtraData: ExtraDataTypes>: _View, UIConfigPro
     open private(set) lazy var presenceAvatarView: _ChatPresenceAvatarView<ExtraData> = uiConfig
         .presenceAvatarView.init()
         .withoutAutoresizingMaskConstraints
+    
+    @available(iOS 13.0, *)
+    public class func SwiftUI(_ content: (channel: _ChatChannel<ExtraData>?, currentUserId: UserId?))
+        -> _ChatChannelAvatarView<ExtraData>.SwiftUIViewRepresentable<ExtraData> {
+        .init(
+            avatarView: Self.self,
+            content: content
+        )
+    }
 
     /// The data this view component shows.
     open var content: (channel: _ChatChannel<ExtraData>?, currentUserId: UserId?) {
@@ -49,5 +58,31 @@ open class _ChatChannelAvatarView<ExtraData: ExtraDataTypes>: _View, UIConfigPro
 
         presenceAvatarView.avatarView.imageView.loadImage(from: avatarURL)
         presenceAvatarView.onlineIndicatorView.isVisible = isOnlineIndicatorVisible
+    }
+}
+
+import SwiftUI
+
+extension _ChatChannelAvatarView {
+    @available(iOS 13.0, *)
+    public struct SwiftUIViewRepresentable<ExtraData: ExtraDataTypes>: UIViewRepresentable {
+        private let avatarView: _ChatChannelAvatarView<ExtraData>.Type
+        public var content: (channel: _ChatChannel<ExtraData>?, currentUserId: UserId?)
+        
+        public init(
+            avatarView: _ChatChannelAvatarView<ExtraData>.Type,
+            content: (channel: _ChatChannel<ExtraData>?, currentUserId: UserId?)
+        ) {
+            self.avatarView = avatarView
+            self.content = content
+        }
+
+        public func makeUIView(context: Context) -> _ChatChannelAvatarView<ExtraData> {
+            avatarView.init()
+        }
+        
+        public func updateUIView(_ uiView: _ChatChannelAvatarView<ExtraData>, context: Context) {
+            uiView.content = content
+        }
     }
 }
