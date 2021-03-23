@@ -34,6 +34,10 @@ class ChannelPayload_Tests: XCTestCase {
         
         XCTAssertEqual(payload.messages.count, 25)
         let firstMessage = payload.messages.first(where: { $0.id == "broken-waterfall-5-7aede36b-b89f-4f45-baff-c40c7c1875d9" })!
+
+        XCTAssertEqual(payload.pinnedMessages.count, 1)
+        let firstPinnedMessage = payload.pinnedMessages
+            .first(where: { $0.id == "broken-waterfall-5-7aede36b-b89f-4f45-baff-c40c7c1875d9" })
         
         XCTAssertEqual(firstMessage.type, MessageType.regular)
         XCTAssertEqual(firstMessage.user.id, "broken-waterfall-5")
@@ -49,6 +53,7 @@ class ChannelPayload_Tests: XCTestCase {
         XCTAssert(firstMessage.reactionScores.isEmpty)
         XCTAssertEqual(firstMessage.replyCount, 0)
         XCTAssertFalse(firstMessage.isSilent)
+        XCTAssertNotNil(firstPinnedMessage)
         
         let channel = payload.channel
         XCTAssertEqual(channel.cid, try! ChannelId(cid: "messaging:general"))
