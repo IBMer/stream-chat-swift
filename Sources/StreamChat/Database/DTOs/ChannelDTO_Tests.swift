@@ -188,6 +188,23 @@ class ChannelDTO_Tests: XCTestCase {
         XCTAssertEqual(channel?.pinnedMessages.count, 1)
     }
 
+    func test_channelPayload_oldestMessageAtIsSaved() throws {
+        // Save a channel payload with 100 messages
+        let channelId: ChannelId = .unique
+        let payload = dummyPayload(with: channelId, numberOfMessages: 100)
+
+        try database.writeSynchronously { session in
+            try session.saveChannel(payload: payload)
+        }
+
+        let channel: ChannelDTO? = database.viewContext.channel(cid: channelId)
+        XCTAssertEqual(channel?.oldestMessageAt, payload.messages.map(\.createdAt).min())
+    }
+
+    func test_channelPayload_whenMessagesNewerThanCurrentOldestMessage_oldestMessageAtIsNotUpdated() throws {
+        XCTFail()
+    }
+
     func test_channelPayload_truncatedMessagesAreIgnored() throws {
         // Save a channel payload with 100 messages
         let channelId: ChannelId = .unique
@@ -209,6 +226,70 @@ class ChannelDTO_Tests: XCTestCase {
         // Assert only the 10 newest messages is serialized
         let channel: ChatChannel? = database.viewContext.channel(cid: channelId)?.asModel()
         XCTAssertEqual(channel?.latestMessages.count, 10)
+    }
+
+    func test_channelPayload_pinnedMessagesOlderThanOldestMessageAtAreIgnored() throws {
+        let channelId: ChannelId = .unique
+        let oldPinnedMessage: MessagePayload<NoExtraData> = MessagePayload(
+            id: .unique,
+            type: .regular,
+            user: dummyUser,
+            createdAt: Date.distantPast,
+            updatedAt: .unique,
+            deletedAt: nil,
+            text: .unique,
+            command: nil,
+            args: nil,
+            parentId: nil,
+            showReplyInChannel: false,
+            mentionedUsers: [dummyCurrentUser],
+            replyCount: 0,
+            extraData: .defaultValue,
+            reactionScores: ["like": 1],
+            isSilent: false,
+            attachments: [],
+            pinned: true
+        )
+        let payload = dummyPayload(with: channelId, numberOfMessages: 1, pinnedMessages: [oldPinnedMessage])
+
+        try database.writeSynchronously { session in
+            try session.saveChannel(payload: payload)
+        }
+
+        let channel: ChatChannel? = database.viewContext.channel(cid: channelId)?.asModel()
+        XCTAssertEqual(channel?.latestMessages.count, 1)
+    }
+
+    func test_channelPayload_pinnedMessagesNewerThanOldestMessageAreFetched() throws {
+        let channelId: ChannelId = .unique
+        let pinnedMessage: MessagePayload<NoExtraData> = MessagePayload(
+            id: .unique,
+            type: .regular,
+            user: dummyUser,
+            createdAt: Date(),
+            updatedAt: .unique,
+            deletedAt: nil,
+            text: .unique,
+            command: nil,
+            args: nil,
+            parentId: nil,
+            showReplyInChannel: false,
+            mentionedUsers: [dummyCurrentUser],
+            replyCount: 0,
+            extraData: .defaultValue,
+            reactionScores: ["like": 1],
+            isSilent: false,
+            attachments: [],
+            pinned: true
+        )
+        let payload = dummyPayload(with: channelId, numberOfMessages: 1, pinnedMessages: [pinnedMessage])
+
+        try database.writeSynchronously { session in
+            try session.saveChannel(payload: payload)
+        }
+
+        let channel: ChatChannel? = database.viewContext.channel(cid: channelId)?.asModel()
+        XCTAssertEqual(channel?.latestMessages.count, 2)
     }
 
     func test_DTO_updateFromSamePayload_doNotProduceChanges() throws {

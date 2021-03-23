@@ -20,6 +20,11 @@ class ChannelDTO: NSManagedObject {
     @NSManaged var updatedAt: Date
     @NSManaged var lastMessageAt: Date?
 
+    // The oldest message of the channel we have locally coming from a regular channel query.
+    // This property only lives locally, and it is useful to filter out older pinned messages
+    // that do not belong to the regular channel query.
+    @NSManaged var oldestMessageAt: Date
+
     // This field lives only locally and is not populated from the payload. The main purpose of having this is to
     // visually truncate the channel that exists and have messages locally already. It should be safe to have this
     // only locally because once the DB is flushed and the channels are fetched fresh, the messages before the
@@ -124,6 +129,10 @@ extension NSManagedObjectContext {
         dto.lastMessageAt = payload.lastMessageAt
         dto.memberCount = Int64(clamping: payload.memberCount)
 
+        if let oldestMessageAt = dto.messages.map(\.createdAt).min() {
+            dto.oldestMessageAt = oldestMessageAt
+        }
+
         dto.isFrozen = payload.isFrozen
         dto.cooldownDuration = payload.cooldownDuration
 
@@ -154,6 +163,11 @@ extension NSManagedObjectContext {
         let dto = try saveChannel(payload: payload.channel, query: query)
         
         try payload.messages.forEach { _ = try saveMessage(payload: $0, for: payload.channel.cid) }
+
+        if let oldestMessageAt = payload.messages.map(\.createdAt).min() {
+            dto.oldestMessageAt = oldestMessageAt
+        }
+
         try payload.pinnedMessages.forEach {
             let message = try saveMessage(payload: $0, for: payload.channel.cid)
             dto.pinnedMessages.insert(message)
