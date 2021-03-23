@@ -20,8 +20,9 @@ class UserDTO_Tests: XCTestCase {
     
     func test_userPayload_isStoredAndLoadedFromDB() {
         let userId = UUID().uuidString
+        let teamId = UUID().uuidString
         
-        let payload: UserPayload<NoExtraData> = .dummy(userId: userId)
+        let payload: UserPayload<NoExtraData> = .dummy(userId: userId, teams: [teamId])
         
         // Asynchronously save the payload to the db
         database.write { session in
@@ -43,6 +44,8 @@ class UserDTO_Tests: XCTestCase {
             Assert.willBeEqual(payload.createdAt, loadedUserDTO?.userCreatedAt)
             Assert.willBeEqual(payload.updatedAt, loadedUserDTO?.userUpdatedAt)
             Assert.willBeEqual(payload.lastActiveAt, loadedUserDTO?.lastActivityAt)
+            Assert.willBeEqual(payload.teams.first, loadedUserDTO?.teams?.first?.id)
+            Assert.willBeEqual(loadedUserDTO?.teams?.first?.users.first, loadedUserDTO)
             Assert.willBeEqual(payload.extraData, loadedUserDTO.map {
                 try? JSONDecoder.default.decode(NoExtraData.self, from: $0.extraData)
             })
