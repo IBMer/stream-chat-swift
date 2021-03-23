@@ -809,6 +809,7 @@
 		E79AC10C25831A1500C3CE5D /* ChatMessageComposerSuggestionsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AC10825831A1500C3CE5D /* ChatMessageComposerSuggestionsCollectionView.swift */; };
 		E79AC10D25831A1500C3CE5D /* ChatMessageComposerSuggestionsCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79AC10925831A1500C3CE5D /* ChatMessageComposerSuggestionsCollectionViewLayout.swift */; };
 		E7A37B8425ADA66E0055458F /* ChatMessageComposerSuggestionsCommandsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A37B8325ADA66E0055458F /* ChatMessageComposerSuggestionsCommandsHeaderView.swift */; };
+		E7A929662609F6B6005E09A2 /* TeamDTO_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A929652609F6B6005E09A2 /* TeamDTO_Tests.swift */; };
 		E7AD954F25D536AA00076DC3 /* SystemEnvironment+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AD954E25D536AA00076DC3 /* SystemEnvironment+Version.swift */; };
 		E7AD958925D7510900076DC3 /* ChatMessageComposerMentionCellView_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7AD958825D7510900076DC3 /* ChatMessageComposerMentionCellView_Tests.swift */; };
 		E7DD8EA825E3F7F50059A322 /* MessageWithBrokenAttachments.json in Resources */ = {isa = PBXBuildFile; fileRef = E7DD8EA725E3F7F50059A322 /* MessageWithBrokenAttachments.json */; };
@@ -1816,6 +1817,7 @@
 		E79AC10825831A1500C3CE5D /* ChatMessageComposerSuggestionsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageComposerSuggestionsCollectionView.swift; sourceTree = "<group>"; };
 		E79AC10925831A1500C3CE5D /* ChatMessageComposerSuggestionsCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageComposerSuggestionsCollectionViewLayout.swift; sourceTree = "<group>"; };
 		E7A37B8325ADA66E0055458F /* ChatMessageComposerSuggestionsCommandsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageComposerSuggestionsCommandsHeaderView.swift; sourceTree = "<group>"; };
+		E7A929652609F6B6005E09A2 /* TeamDTO_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDTO_Tests.swift; sourceTree = "<group>"; };
 		E7AD954E25D536AA00076DC3 /* SystemEnvironment+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SystemEnvironment+Version.swift"; sourceTree = "<group>"; };
 		E7AD958825D7510900076DC3 /* ChatMessageComposerMentionCellView_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageComposerMentionCellView_Tests.swift; sourceTree = "<group>"; };
 		E7DD8EA725E3F7F50059A322 /* MessageWithBrokenAttachments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MessageWithBrokenAttachments.json; sourceTree = "<group>"; };
@@ -2230,6 +2232,7 @@
 				DABC6AC7254707CB00A8FC78 /* AttachmentDTO.swift */,
 				DA49714D2549C28000AC68C2 /* AttachmentDTO_Tests.swift */,
 				79877A1F2498E50D00015F8B /* TeamDTO.swift */,
+				E7A929652609F6B6005E09A2 /* TeamDTO_Tests.swift */,
 				79877A222498E50D00015F8B /* UserDTO.swift */,
 				79877A202498E50D00015F8B /* UserDTO_Tests.swift */,
 				DA84070F25250720005A0F62 /* UserListQueryDTO.swift */,
@@ -4928,6 +4931,7 @@
 				F61D7C3124FF9D1F00188A0E /* MessageEndpoints_Tests.swift in Sources */,
 				2229C6DF256562DB00C56B63 /* AttachmentPayload.swift in Sources */,
 				8836FFC325408210009FDF73 /* FlagUserPayload_Tests.swift in Sources */,
+				E7A929662609F6B6005E09A2 /* TeamDTO_Tests.swift in Sources */,
 				DAFC1D4724F50C5C00CE2DD8 /* NewChannelQueryUpdater_Tests.swift in Sources */,
 				7964F3AA249A19EA002A09EC /* Filter_Tests.swift in Sources */,
 				AD45333225D153A500CD9D47 /* ConnectionController_Tests.swift in Sources */,
