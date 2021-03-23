@@ -126,13 +126,20 @@ extension NSManagedObjectContext {
         dto.isFrozen = payload.isFrozen
         dto.cooldownDuration = payload.cooldownDuration
 
+        if let teamId = payload.team {
+            let teamDTO = try saveTeam(teamId: teamId)
+            dto.team = teamDTO
+        } else {
+            // If team was removed from the channel, we should re-assign it to `nil`,
+            // not to be stuck with unexisting team
+            dto.team = nil
+        }
+
         if let createdByPayload = payload.createdBy {
             let creatorDTO = try saveUser(payload: createdByPayload)
             dto.createdBy = creatorDTO
         }
-        
-        // TODO: Team
-        
+
         try payload.members?.forEach { memberPayload in
             let member = try saveMember(payload: memberPayload, channelId: payload.cid)
             dto.members.insert(member)
@@ -286,7 +293,7 @@ extension _ChatChannel {
             membership: dto.membership.map { $0.asModel() },
             currentlyTypingMembers: Set(typingMembers),
             watchers: Set(dto.watchers.map { $0.asModel() }),
-//            team: "",
+            teamId: dto.team?.id,
             unreadCount: unreadCount,
             watcherCount: Int(dto.watcherCount),
             memberCount: Int(dto.memberCount),

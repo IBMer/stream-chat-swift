@@ -49,6 +49,7 @@ class ChannelDTO_Tests: XCTestCase {
             Assert.willBeEqual(payload.channel.updatedAt, loadedChannel?.updatedAt)
             Assert.willBeEqual(payload.channel.deletedAt, loadedChannel?.deletedAt)
             Assert.willBeEqual(payload.channel.cooldownDuration, loadedChannel?.cooldownDuration)
+            Assert.willBeEqual(payload.channel.team, loadedChannel?.teamId)
             
             // Config
             Assert.willBeEqual(payload.channel.config.reactionsEnabled, loadedChannel?.config.reactionsEnabled)
@@ -572,7 +573,7 @@ extension XCTestCase {
                     ),
                     isFrozen: true,
                     memberCount: 100,
-                    team: "",
+                    team: "GREEN",
                     members: [member],
                     cooldownDuration: .random(in: 0...120)
                 ),
@@ -682,7 +683,7 @@ extension XCTestCase {
                     ),
                     isFrozen: true,
                     memberCount: 100,
-                    team: "",
+                    team: "GREEN",
                     members: nil,
                     cooldownDuration: .random(in: 0...120)
                 ),

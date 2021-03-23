@@ -7,7 +7,7 @@ import Foundation
 
 extension ChannelDetailPayload where ExtraData == NoExtraData {
     /// Returns a dummy channel detail payload with the given cid
-    static func dummy(cid: ChannelId) -> ChannelDetailPayload {
+    static func dummy(cid: ChannelId, teamId: TeamId? = nil) -> ChannelDetailPayload {
         let member: MemberPayload<NoExtraData> =
             .init(
                 user: .init(
@@ -68,7 +68,7 @@ extension ChannelDetailPayload where ExtraData == NoExtraData {
             ),
             isFrozen: true,
             memberCount: 100,
-            team: "",
+            team: teamId,
             members: [member],
             cooldownDuration: .random(in: 0...120)
         )
