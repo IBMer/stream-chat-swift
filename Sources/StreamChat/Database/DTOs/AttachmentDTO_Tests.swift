@@ -262,6 +262,7 @@ class AttachmentDTO_Tests: XCTestCase {
             let message = try session.createNewMessage(
                 in: cid,
                 text: "Message pending send",
+                pinning: nil,
                 quotedMessageId: nil,
                 attachments: [TestAttachmentEnvelope()],
                 attachmentSeeds: [],

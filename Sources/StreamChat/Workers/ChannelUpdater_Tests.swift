@@ -140,6 +140,7 @@ class ChannelUpdater_Tests: StressTestCase {
             channelUpdater.createNewMessage(
                 in: cid,
                 text: text,
+                pinning: MessagePinning(expirationDate: .unique),
                 command: command,
                 arguments: arguments,
                 attachments: attachments + attachmentSeeds,
@@ -174,6 +175,7 @@ class ChannelUpdater_Tests: StressTestCase {
             )
             Assert.willBeEqual(message?.extraData, extraData)
             Assert.willBeEqual(message?.localState, .pendingSend)
+            Assert.willBeEqual(message?.isPinned, true)
         }
     }
     
